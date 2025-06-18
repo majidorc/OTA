@@ -1,0 +1,52 @@
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String?
+  image     String?
+  bookings  Booking[]
+  reviews   Review[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tour {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  location    String
+  price       Float
+  image       String?
+  startDate   DateTime
+  endDate     DateTime
+  capacity    Int
+  bookings    Booking[]
+  reviews     Review[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tour      Tour     @relation(fields: [tourId], references: [id])
+  tourId    String
+  date      DateTime
+  guests    Int
+  status    String   // e.g. 'pending', 'confirmed', 'cancelled'
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tour      Tour     @relation(fields: [tourId], references: [id])
+  tourId    String
+  rating    Int      // 1-5
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+} 
