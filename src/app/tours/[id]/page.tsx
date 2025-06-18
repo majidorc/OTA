@@ -1,8 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
-type PageProps = { params: { id: string } };
-
 const tours = [
   {
     id: '1',
@@ -27,7 +25,7 @@ const tours = [
   },
 ];
 
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: { params: { id: string } }) {
   const tour = tours.find(t => t.id === params.id);
   if (!tour) return notFound();
 
